@@ -106,7 +106,7 @@ Gain ADS1015::getGain()
 /**
  * @brief Gets a single-ended ADC reading from the specified channel
  */
-uint16_t ADS1015::read(Channel channel)
+SingleEndedValue ADS1015::read(Channel channel)
 {
     // Configuration register values
     uint16_t config = ConfigFlag::cqueNone | // Disable the comparator (default val)
@@ -137,7 +137,7 @@ uint16_t ADS1015::read(Channel channel)
  *  N (AIN1/3) input. Generates a signed value since the difference can be either positive or
  *  negative.
  */
-int16_t ADS1015::readDifferential(DifferentialPair channels)
+DifferentialValue ADS1015::readDifferential(DifferentialPair channels)
 {
     // Start with default values
     uint16_t config = ConfigFlag::cqueNone | // Disable the comparator (default val)
@@ -218,7 +218,7 @@ void ADS1015::startComparator(Channel channel, int16_t threshold)
  * @brief In order to clear the comparator, we need to read the conversion results. This function
  *  reads the last conversion results without changing the config value.
  */
-int16_t ADS1015::getLastConversionResults()
+DifferentialValue ADS1015::getLastConversionResults()
 {
     // Wait for the conversion to complete
     delay(m_conversionDelay);

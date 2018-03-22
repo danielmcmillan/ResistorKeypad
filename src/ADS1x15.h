@@ -31,6 +31,10 @@
 
 namespace ADS1x15
 {
+
+using SingleEndedValue = uint16_t;
+using DifferentialValue = int16_t;
+
 /**
  * Default I2C address for the ADC
  */
@@ -51,7 +55,8 @@ enum class Channel: uint8_t
     zero = 0,
     one = 1,
     two = 2,
-    three = 3
+    three = 3,
+    maximum = three
 };
 
 enum class DifferentialPair
@@ -170,10 +175,10 @@ class ADS1015
   public:
     ADS1015(uint8_t i2cAddress = address);
     void begin(void);
-    uint16_t read(Channel channel);
-    int16_t readDifferential(DifferentialPair channels);
+    SingleEndedValue read(Channel channel);
+    DifferentialValue readDifferential(DifferentialPair channels);
     void startComparator(Channel channel, int16_t threshold);
-    int16_t getLastConversionResults();
+    DifferentialValue getLastConversionResults();
     void setGain(Gain gain);
     Gain getGain(void);
 
