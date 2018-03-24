@@ -1,40 +1,40 @@
-#include "Events.h"
+#include "EventEmitter.h"
 #include <thread>
 
-namespace Keypad
+namespace ResistorKeypad
 {
-Events::Events(Keypad keypad, std::chrono::milliseconds refreshPeriod)
-    : keypad(keypad), refreshPeriod(refreshPeriod)
+EventEmitter::EventEmitter(Reader reader, std::chrono::milliseconds refreshPeriod)
+    : reader(reader), refreshPeriod(refreshPeriod)
 {
-    thread = std::thread(&Events::threadWorker, this, std::move(stopPromise.get_future()));
+    thread = std::thread(&EventEmitter::threadWorker, this, std::move(stopPromise.get_future()));
 }
 
-Events::~Events()
+EventEmitter::~EventEmitter()
 {
     stopPromise.set_value();
     thread.join();
 }
 
-Events::ListenerID Events::addListener(const Listener listener)
+EventEmitter::ListenerID EventEmitter::addListener(const Listener listener)
 {
     std::lock_guard<std::mutex> lock(mutex);
     ListenerID id = ++lastId;
     listeners[id] = listener;
 }
 
-void Events::removeListener(ListenerID listenerID)
+void EventEmitter::removeListener(ListenerID listenerID)
 {
     std::lock_guard<std::mutex> lock(mutex);
     auto listenerIt = listeners.find(listenerID);
     listeners.erase(listenerIt);
 }
 
-void Events::threadWorker(std::future<void> stopFuture)
+void EventEmitter::threadWorker(std::future<void> stopFuture)
 {
     while (stopFuture.wait_for(refreshPeriod) == std::future_status::timeout)
     {
         int button;
-        if (keypad.buttonPressed(&button))
+        if (reader.buttonPressed(&button))
         {
             if (!isButtonPressed || button != lastPressedButton)
             {
@@ -50,7 +50,7 @@ void Events::threadWorker(std::future<void> stopFuture)
     }
 }
 
-void Events::emit(ButtonPressedEvent event)
+void EventEmitter::emit(ButtonPressedEvent event)
 {
     std::lock_guard<std::mutex> lock(mutex);
     for (auto &listener : listeners)

@@ -1,9 +1,9 @@
-#include "Keypad.h"
+#include "Reader.h"
 
-namespace Keypad
+namespace ResistorKeypad
 {
 /**
- * Configure Keypad object for Sony Dream Machine iPod dock keypad.
+ * Configure Reader object for Sony Dream Machine iPod dock keypad.
  * 
  * Each button is given a range that is +/-100 from its measured analogue value.
  * 
@@ -28,5 +28,5 @@ namespace Keypad
  * | 15 | Off        | 3       |   865 |
  * |----|------------|---------|-------|
  */
-    void configureKeypadForSonyRadio(Keypad &keypad);
+    void configureReaderForSonyRadio(Reader &reader);
 }

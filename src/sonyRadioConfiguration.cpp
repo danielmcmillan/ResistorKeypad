@@ -1,24 +1,24 @@
 #include "sonyRadioConfiguration.h"
 
-namespace Keypad
+namespace ResistorKeypad
 {
-void configureKeypadForSonyRadio(Keypad &keypad)
+void configureReaderForSonyRadio(Reader &reader)
 {
-    keypad.addButton(0, 2, 865, 1065);
-    keypad.addButton(1, 0, 865, 1065);
-    keypad.addButton(2, 1, 865, 1065);
-    keypad.addButton(3, 0, 0, 100);
-    keypad.addButton(4, 1, 1162, 1362);
-    keypad.addButton(5, 3, 320, 520);
-    keypad.addButton(6, 2, 550, 750);
-    keypad.addButton(7, 3, 0, 100);
-    keypad.addButton(8, 1, 550, 750);
-    keypad.addButton(9, 0, 550, 750);
-    keypad.addButton(10, 0, 1162, 1362);
-    keypad.addButton(11, 1, 0, 100);
-    keypad.addButton(12, 2, 210, 410);
-    keypad.addButton(13, 1, 210, 410);
-    keypad.addButton(14, 0, 210, 410);
-    keypad.addButton(15, 3, 765, 965);
+    reader.addButton(0, 2, 865, 1065);
+    reader.addButton(1, 0, 865, 1065);
+    reader.addButton(2, 1, 865, 1065);
+    reader.addButton(3, 0, 0, 100);
+    reader.addButton(4, 1, 1162, 1362);
+    reader.addButton(5, 3, 320, 520);
+    reader.addButton(6, 2, 550, 750);
+    reader.addButton(7, 3, 0, 100);
+    reader.addButton(8, 1, 550, 750);
+    reader.addButton(9, 0, 550, 750);
+    reader.addButton(10, 0, 1162, 1362);
+    reader.addButton(11, 1, 0, 100);
+    reader.addButton(12, 2, 210, 410);
+    reader.addButton(13, 1, 210, 410);
+    reader.addButton(14, 0, 210, 410);
+    reader.addButton(15, 3, 765, 965);
 }
 }

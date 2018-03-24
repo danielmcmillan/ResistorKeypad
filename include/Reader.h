@@ -4,12 +4,12 @@
 #include <array>
 #include "ADS1x15.h"
 
-namespace Keypad
+namespace ResistorKeypad
 {
 /**
  * Class for interpretting ADC values to determine button presses
  */
-class Keypad
+class Reader
 {
 private:
     struct Range
@@ -22,7 +22,7 @@ private:
     ADS1x15::ADS1015 adc;
 
 public:
-    Keypad();
+    Reader();
 
     /**
      * @brief Add a button definition for an analog range on a given channel.

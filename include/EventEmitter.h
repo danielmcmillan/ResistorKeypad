@@ -1,19 +1,19 @@
 #pragma once
 
-#include "Keypad.h"
+#include "Reader.h"
 #include <functional>
 #include <unordered_map>
 #include <mutex>
 #include <future>
 #include <chrono>
 
-namespace Keypad
+namespace ResistorKeypad
 {
     const std::chrono::milliseconds defaultRefreshPeriod = std::chrono::milliseconds(100);
     /**
-     * Class for monitoring the Keypad asynchronously and alerting listeners of button presses.
+     * Class for reading from the keypad asynchronously and alerting listeners of button presses.
      */
-    class Events
+    class EventEmitter
     {
     public:
         struct ButtonPressedEvent
@@ -23,11 +23,11 @@ namespace Keypad
         using Listener = std::function<void (ButtonPressedEvent)>;
         using ListenerID = int;
 
-        Events(
-            Keypad keypad,
+        EventEmitter(
+            Reader reader,
             std::chrono::milliseconds refreshPeriod = std::chrono::milliseconds(defaultRefreshPeriod)
         );
-        ~Events();
+        ~EventEmitter();
 
         /**
          * @brief Provide a function to be called when an event occurs.
@@ -43,7 +43,7 @@ namespace Keypad
         void removeListener(ListenerID listener);
 
     private:
-        Keypad keypad;
+        Reader reader;
         std::chrono::milliseconds refreshPeriod;
         std::unordered_map<ListenerID, Listener> listeners;
         bool isButtonPressed = false;
