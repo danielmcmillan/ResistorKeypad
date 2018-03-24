@@ -1,7 +1,7 @@
 cmake_minimum_required (VERSION 2.6)
 project (DockKeypad)
 
-add_executable(DockKeypad src/keypad_io.cpp src/ADS1x15.cpp src/Keypad.cpp src/Events.cpp)
+add_library(DockKeypad src/ADS1x15.cpp src/Keypad.cpp src/Events.cpp src/sonyRadioConfiguration.cpp)
 target_include_directories(DockKeypad PRIVATE "${PROJECT_SOURCE_DIR}/src")
 target_include_directories(DockKeypad PUBLIC "${PROJECT_SOURCE_DIR}/include")
 
@@ -12,7 +12,6 @@ if(NOT wiringPi_LIB)
 endif()
 target_link_libraries(DockKeypad ${wiringPi_LIB})
 target_link_libraries(DockKeypad ${wiringPi_LIB})
-# Link pthread
-set(THREADS_PREFER_PTHREAD_FLAG ON)
+# Link thread library
 find_package(Threads REQUIRED)
 target_link_libraries(DockKeypad Threads::Threads)
