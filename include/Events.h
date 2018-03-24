@@ -5,9 +5,11 @@
 #include <unordered_map>
 #include <mutex>
 #include <future>
+#include <chrono>
 
 namespace Keypad
 {
+    const std::chrono::milliseconds defaultRefreshPeriod = std::chrono::milliseconds(100);
     /**
      * Class for monitoring the Keypad asynchronously and alerting listeners of button presses.
      */
@@ -21,7 +23,7 @@ namespace Keypad
         using Listener = std::function<void (ButtonPressedEvent)>;
         using ListenerID = int;
 
-        Events();
+        Events(std::chrono::milliseconds refreshPeriod = std::chrono::milliseconds(defaultRefreshPeriod));
         ~Events();
 
         /**
@@ -39,6 +41,7 @@ namespace Keypad
 
     private:
         Keypad keypad;
+        std::chrono::milliseconds refreshPeriod;
         std::unordered_map<ListenerID, Listener> listeners;
         ListenerID lastId = 0;
         std::mutex mutex;

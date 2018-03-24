@@ -1,10 +1,10 @@
 #include "Events.h"
-#include <chrono>
 #include <thread>
 
 namespace Keypad
 {
-Events::Events()// : thread(stopPromise.get_future())
+Events::Events(std::chrono::milliseconds refreshPeriod)
+    : refreshPeriod(refreshPeriod)
 {
     thread = std::thread(&Events::threadWorker, this, std::move(stopPromise.get_future()));
 }
@@ -31,7 +31,7 @@ void Events::removeListener(ListenerID listenerID)
 
 void Events::threadWorker(std::future<void> stopFuture)
 {
-    while (stopFuture.wait_for(std::chrono::milliseconds(100)) == std::future_status::timeout)
+    while (stopFuture.wait_for(refreshPeriod) == std::future_status::timeout)
     {
         emit({5});
     }
