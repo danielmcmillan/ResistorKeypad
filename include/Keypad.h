@@ -31,7 +31,7 @@ public:
      * @param rangeStart Low end (inclusive) of range for analogue values associated with the button.
      * @param rangeEnd High end (exclusive) of range for analogue values associated with the button.
      */
-    void addButton(int id, int channel, int rangeStart, int rangeEnd);
+    void addButton(int id, int channel, ADS1x15::SingleEndedValue rangeStart, ADS1x15::SingleEndedValue rangeEnd);
 
     /**
      * Check for a button press.

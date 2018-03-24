@@ -8,7 +8,7 @@ namespace Keypad
         adc.begin();
     }
 
-    void Keypad::addButton(int id, int channel, int rangeStart, int rangeEnd)
+    void Keypad::addButton(int id, int channel, ADS1x15::SingleEndedValue rangeStart, ADS1x15::SingleEndedValue rangeEnd)
     {
         Range range = {id, rangeStart, rangeEnd};
         channels[channel].push_back(range);
