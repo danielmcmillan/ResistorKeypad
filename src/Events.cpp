@@ -3,8 +3,8 @@
 
 namespace Keypad
 {
-Events::Events(std::chrono::milliseconds refreshPeriod)
-    : refreshPeriod(refreshPeriod)
+Events::Events(Keypad keypad, std::chrono::milliseconds refreshPeriod)
+    : keypad(keypad), refreshPeriod(refreshPeriod)
 {
     thread = std::thread(&Events::threadWorker, this, std::move(stopPromise.get_future()));
 }
@@ -33,7 +33,20 @@ void Events::threadWorker(std::future<void> stopFuture)
 {
     while (stopFuture.wait_for(refreshPeriod) == std::future_status::timeout)
     {
-        emit({5});
+        int button;
+        if (keypad.buttonPressed(&button))
+        {
+            if (!isButtonPressed || button != lastPressedButton)
+            {
+                isButtonPressed = true;
+                lastPressedButton = button;
+                emit({button});
+            }
+        }
+        else
+        {
+            isButtonPressed = false;
+        }
     }
 }
 

@@ -23,7 +23,10 @@ namespace Keypad
         using Listener = std::function<void (ButtonPressedEvent)>;
         using ListenerID = int;
 
-        Events(std::chrono::milliseconds refreshPeriod = std::chrono::milliseconds(defaultRefreshPeriod));
+        Events(
+            Keypad keypad,
+            std::chrono::milliseconds refreshPeriod = std::chrono::milliseconds(defaultRefreshPeriod)
+        );
         ~Events();
 
         /**
@@ -43,6 +46,8 @@ namespace Keypad
         Keypad keypad;
         std::chrono::milliseconds refreshPeriod;
         std::unordered_map<ListenerID, Listener> listeners;
+        bool isButtonPressed = false;
+        int lastPressedButton;
         ListenerID lastId = 0;
         std::mutex mutex;
         std::promise<void> stopPromise;
