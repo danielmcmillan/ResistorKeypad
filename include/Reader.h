@@ -11,17 +11,8 @@ namespace ResistorKeypad
  */
 class Reader
 {
-private:
-    struct Range
-    {
-        int id;
-        ADS1x15::SingleEndedValue rangeStart;
-        ADS1x15::SingleEndedValue rangeEnd;
-    };
-    std::array<std::vector<Range>, (unsigned)ADS1x15::Channel::maximum + 1> channels;
-    ADS1x15::ADS1015 adc;
-
 public:
+    using AnalogValue = ADS1x15::SingleEndedValue;
     Reader();
 
     /**
@@ -31,7 +22,7 @@ public:
      * @param rangeStart Low end (inclusive) of range for analogue values associated with the button.
      * @param rangeEnd High end (exclusive) of range for analogue values associated with the button.
      */
-    void addButton(int id, int channel, ADS1x15::SingleEndedValue rangeStart, ADS1x15::SingleEndedValue rangeEnd);
+    void addButton(int id, int channel, AnalogValue rangeStart, AnalogValue rangeEnd);
 
     /**
      * Check for a button press.
@@ -39,5 +30,15 @@ public:
      * @return Whether any button is pressed.
      */
     bool buttonPressed(int *button);
+    
+private:
+    struct Range
+    {
+        int id;
+        AnalogValue rangeStart;
+        AnalogValue rangeEnd;
+    };
+    std::array<std::vector<Range>, (unsigned)ADS1x15::Channel::maximum + 1> channels;
+    ADS1x15::ADS1015 adc;
 };
 }
