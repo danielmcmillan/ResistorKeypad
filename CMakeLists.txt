@@ -14,3 +14,7 @@ target_link_libraries(ResistorKeypad ${wiringPi_LIB})
 # Link thread library
 find_package(Threads REQUIRED)
 target_link_libraries(ResistorKeypad Threads::Threads)
+
+add_executable(keypadTest src/keypadTest.cpp)
+target_include_directories(keypadTest PUBLIC "${PROJECT_SOURCE_DIR}/include")
+target_link_libraries(keypadTest ResistorKeypad)
